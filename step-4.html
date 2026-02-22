@@ -269,7 +269,13 @@
             const sections = ['rangeContent', 'bonusSection', 'heatmapSection', 'verificationSection'];
             sections.forEach((id, index) => {
                 setTimeout(() => {
-                    document.getElementById(id).classList.add('revealed');
+                    // Old line 272 replaced with this:
+const element = document.getElementById(id);
+if (element) {
+    element.classList.add('revealed');
+} else {
+    console.warn("Could not find element with ID:", id);
+}
                 }, index * 400); // 400ms delay between each section for a smooth flow
             });
         }, 2000);
@@ -328,22 +334,36 @@
     </script>
 </div>
        
-
 <script>
-    // This function runs automatically to fill your Step 4 with data
     (function() {
-        // 1. Find the hooks you just created
+        // 1. Find the containers in your HTML
         const featureContainer = document.getElementById('displayFeatures');
+        const addressContainer = document.getElementById('displayAddress');
         
-        // 2. Get the data from Step 2 memory
-        const savedFeatures = JSON.parse(localStorage.getItem('userFeatures') || '[]');
+        // 2. Pull the data from the "Bridge" (LocalStorage)
+        const savedAddress = localStorage.getItem('userAddress') || 'Your Property';
+        const rawFeatures = localStorage.getItem('userFeatures');
+        
+        // 3. Process the Features
+        let savedFeatures = [];
+        try {
+            savedFeatures = rawFeatures ? JSON.parse(rawFeatures) : [];
+        } catch (e) {
+            console.error("Error reading features:", e);
+            savedFeatures = [];
+        }
 
+        // 4. Inject the Address
+        if (addressContainer) {
+            addressContainer.innerText = savedAddress;
+        }
+
+        // 5. Inject the Features
         if (featureContainer) {
-            // Clear any "Loading" or old text
-            featureContainer.innerHTML = ''; 
+            featureContainer.innerHTML = ''; // Clear existing static list
 
             if (savedFeatures.length > 0) {
-                // Loop through and build your feature list
+                // Loop through and create each row
                 savedFeatures.forEach(feature => {
                     const featureDiv = document.createElement('div');
                     featureDiv.className = 'feature-item';
@@ -351,8 +371,8 @@
                     featureContainer.appendChild(featureDiv);
                 });
             } else {
-                // Fallback if nothing was selected
-                featureContainer.innerHTML = '<div class="feature-item"><span class="plus-sign">+</span> Standard Spec</div>';
+                // What to show if the user didn't check anything in Step 2
+                featureContainer.innerHTML = '<div class="feature-item"><span class="plus-sign">+</span> Standard Area Specification</div>';
             }
         }
     })();
