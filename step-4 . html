@@ -1,1 +1,333 @@
+<div id="step4" class="step-card">
+    <style>
+        :root {
+            --liv-teal: #489085;
+            --liv-teal-dark: #134e4a;
+            --liv-gold: #fbbf24;
+            --liv-green: #4ade80;
+            --liv-red: #ff4d4d;
+            --liv-orange: #f97316;
+        }
+
+        /* --- PROGRESS BAR 91% --- */
+        .progress-container {
+            width: 100%;
+            background: rgba(0, 0, 0, 0.2);
+            height: 8px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 100;
+        }
+        .progress-bar {
+            width: 0%; 
+            height: 100%;
+            background: linear-gradient(90deg, #2dd4bf, #5eead4);
+            box-shadow: 0 0 15px rgba(45, 212, 191, 0.5);
+            transition: width 2s cubic-bezier(0.1, 0.7, 1.0, 0.1);
+        }
+
+        .step4-hero {
+            position: relative;
+            background-image: linear-gradient(rgba(19, 78, 74, 0.92), rgba(19, 78, 74, 0.98)), 
+                              url('https://images.unsplash.com/photo-1570129477492-45c003edd2be?auto=format&fit=crop&q=80&w=800'); 
+            background-size: cover;
+            background-position: center;
+            padding: 5rem 1.5rem;
+            text-align: center;
+            color: white;
+            min-height: 100vh;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .results-container {
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        /* --- THE RANGE BOX --- */
+        .range-box {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 2.2rem;
+            padding: 3rem 1rem;
+            margin-bottom: 2.5rem;
+            position: relative;
+        }
+
+        .reveal-element {
+            filter: blur(10px);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .reveal-element.revealed {
+            filter: blur(0);
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        #loader-overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 10;
+        }
+
+        .spinner {
+            width: 40px; height: 40px;
+            border: 4px solid rgba(255,255,255,0.1);
+            border-top: 4px solid #5eead4;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin: 0 auto 10px;
+        }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+
+        .accuracy-badge {
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--liv-gold);
+            color: #134e4a;
+            font-size: 11px;
+            font-weight: 900;
+            padding: 6px 18px;
+            border-radius: 20px;
+            white-space: nowrap;
+        }
+
+        .price-range {
+            font-size: 2.5rem;
+            font-weight: 900;
+            letter-spacing: -0.05em;
+            margin: 10px 0;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: #ffffff;
+        }
+
+        .plus-sign {
+            color: var(--liv-green);
+            margin-right: 12px;
+            font-weight: 900;
+        }
+
+        /* --- STYLES FOR SECTIONS --- */
+        .section-divider {
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding: 2.5rem 0;
+            margin-top: 1rem;
+            text-align: left;
+        }
+
+        .stuck-bar-container {
+            width: 100%; height: 12px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+            display: flex; overflow: hidden;
+            margin: 1.5rem 0;
+        }
+
+        .stuck-fill { width: 91%; background: var(--liv-teal); }
+        .locked-fill { 
+            width: 9%; background: var(--liv-red); 
+            animation: pulse-red 1.5s infinite; 
+        }
+
+        @keyframes pulse-red {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+    </style>
+
+    <div class="step4-hero">
+        <div class="progress-container">
+            <div id="finalPBar" class="progress-bar"></div>
+        </div>
+
+        <div class="results-container">
+            <div id="loader-overlay">
+                <div class="spinner"></div>
+                <p style="font-size: 10px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase;">Final Audit in Progress...</p>
+            </div>
+
+            <div class="range-box reveal-element" id="rangeContent">
+                <div class="accuracy-badge">★ 91.4% ACCURACY</div>
+                <p style="font-size: 12px; font-weight: 700; opacity: 0.9; margin-bottom: 0;">ESTIMATED EQUITY RANGE</p>
+                <div class="price-range">£175,000 — £192,000</div>
+                <p style="font-size: 11px; opacity: 0.8; font-weight: 600;">Verified for L4 Market Conditions</p>
+            </div>
+
+            <div class="reveal-element" id="bonusSection" style="text-align: left;">
+                <h3 style="font-size: 22px; font-weight: 900; color: var(--liv-gold); text-transform: uppercase; margin-bottom: 1.5rem;">💎 EQUITY BONUS</h3>
+                
+                <div style="margin-bottom: 2rem;">
+                    <div class="feature-item"><span class="plus-sign">+</span> Modern Kitchen</div>
+                    <div class="feature-item"><span class="plus-sign">+</span> Private Driveway</div>
+                    <div class="feature-item"><span class="plus-sign">+</span> HMO Potential</div>
+                </div>
+
+                <p style="font-size: 17px; line-height: 1.6; font-weight: 500; margin-bottom: 3rem;">
+                    Based on your L4 home’s specific upgrades, you could be eligible for a 
+                    <span style="color: var(--liv-green); font-weight: 900; border-bottom: 2px solid var(--liv-green);">£9,200 'Market Premium'</span> 
+                    above the average street price.
+                </p>
+
+                <div class="section-divider">
+                    <h3 style="font-size: 22px; font-weight: 900; color: #ffffff; margin-bottom: 1rem;">The 9% Reality Gap</h3>
+                    <p style="font-size: 16px; line-height: 1.6; color: rgba(255,255,255,0.8);">
+                        This creates the "Reality Gap." Computers only see data; they don't see the premium details that make a buyer fall in love. That is why the top tier of your property's value remains <span style="color:var(--liv-red); font-weight:800;">LOCKED.</span>
+                    </p>
+
+                    <div class="stuck-bar-container">
+                        <div class="stuck-fill"></div>
+                        <div class="locked-fill"></div>
+                    </div>
+
+                    <div style="display: flex; align-items: center; gap: 15px; background: rgba(0,0,0,0.3); padding: 1.2rem; border-radius: 1rem; border: 1px dashed rgba(255,255,255,0.2);">
+                        <span style="font-size: 24px;">🔒</span>
+                        <div>
+                            <p style="font-size: 10px; font-weight: 800; color: var(--liv-gold); margin: 0; text-transform: uppercase;">Top Tier Price Potential</p>
+                            <p style="font-size: 18px; font-weight: 900; color: #ffffff; margin: 0; filter: blur(4px); opacity: 0.4;">£200,000+</p>
+                        </div>
+                        <p style="font-size: 9px; margin-left: auto; font-weight: 800; color: rgba(255,255,255,0.5); text-align: right;">Physical Verification<br>Required to Unlock</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="heatmapSection" class="reveal-element section-divider">
+                <h3 style="font-size: 22px; font-weight: 900; color: var(--liv-gold); margin-bottom: 1rem; display: flex; align-items: center; gap: 10px;">
+                    <span style="display: inline-block; width: 12px; height: 12px; background: #ff4d4d; border-radius: 50%; animation: pulse-red 1s infinite;"></span>
+                    L4 LIVE BUYER HEATMAP
+                </h3>
+                <p style="font-size: 16px; line-height: 1.6; color: #ffffff; margin-bottom: 2rem;">
+                    People with liquid capital are ready to buy <span style="text-decoration: underline;">now</span>. If you wait, you risk losing an exciting high-ticket sale to a neighbor.
+                </p>
+                <div style="background: rgba(0,0,0,0.4); border-radius: 1.5rem; padding: 1.5rem; border: 1px solid rgba(255,255,255,0.1);">
+                    <div style="display: flex; flex-direction: column; gap: 12px;">
+                        <div style="display: flex; align-items: center; gap: 12px; opacity: 0.4;"><span style="font-size: 14px;">✅</span> <p style="font-size: 13px; font-weight: 800; margin: 0;">Buyer #104 — PURCHASED ELSEWHERE</p></div>
+                        <div style="display: flex; align-items: center; gap: 12px; opacity: 0.4;"><span style="font-size: 14px;">✅</span> <p style="font-size: 13px; font-weight: 800; margin: 0;">Buyer #109 — PURCHASED ELSEWHERE</p></div>
+                        <div style="display: flex; align-items: center; gap: 12px; opacity: 0.4;"><span style="font-size: 14px;">✅</span> <p style="font-size: 13px; font-weight: 800; margin: 0;">Buyer #112 — SALE AGREED (L4)</p></div>
+                        <hr style="border:0; border-top:1px solid rgba(255,255,255,0.1);">
+                        <div style="display: flex; align-items: center; gap: 12px;"><span style="color:var(--liv-orange);">🔥</span> <p style="font-size: 13px; font-weight: 800; margin: 0;">Buyer #115 — ACTIVE & READY</p></div>
+                        <div style="display: flex; align-items: center; gap: 12px;"><span style="color:var(--liv-orange);">🔥</span> <p style="font-size: 13px; font-weight: 800; margin: 0;">Buyer #118 — ACTIVE & READY</p></div>
+                    </div>
+                </div>
+            </div>
+
+<div class="blinking-red-box" style="border: 3px solid var(--liv-red); box-shadow: 0 0 15px rgba(255, 77, 77, 0.3); background: rgba(255, 77, 77, 0.08); border-radius: 1.5rem; padding: 1.5rem; margin-bottom: 2rem; animation: border-pulse 1.2s infinite ease-in-out;">
+    <h3 style="font-size: 19px; font-weight: 900; color: var(--liv-red); margin-bottom: 8px; display: flex; align-items: center; gap: 8px;">
+        <span style="animation: pulse-red 0.8s infinite;">⚠️</span> 9% UNVERIFIED EQUITY
+    </h3>
+    <p style="font-size: 15px; line-height: 1.5; color: #ffffff; margin: 0;">
+        Algorithm flagged: <strong>Premium Potential</strong>. Your home is currently 
+        <span style="color: var(--liv-red); font-weight: 800; text-decoration: underline;">de-valued by £16,000 – £18,500</span> due to generic online data.
+    </p>
+</div>
+          
+    <p style="font-size: 16px; line-height: 1.6; color: rgba(255,255,255,0.9); margin-bottom: 2rem;">
+                    Our specialist is cross-checking your data with <strong>Land Registry</strong> now to find your hidden equity.
+                </p>
+
+                <div style="background: white; border-radius: 1.5rem; padding: 2rem 1rem; text-align: center; color: #134e4a; box-shadow: 0 10px 30px rgba(0,0,0,0.3);">
+                    <p style="font-size: 14px; font-weight: 800; margin-bottom: 5px; text-transform: uppercase;">Stay close to your phone</p>
+                    <p style="font-size: 15px; margin-bottom: 1.5rem;">Expert call incoming to unlock your 100% accurate figure:</p>
+                    
+                    <div style="background: #f3f4f6; border-radius: 12px; padding: 12px; margin-bottom: 1.5rem; border: 2px solid #e5e7eb;">
+                        <p style="font-size: 24px; font-weight: 900; color: #134e4a; margin: 0;">0151 XXX XXXX</p>
+                    </div>
+
+                    <div style="display: inline-flex; align-items: center; gap: 8px; background: #134e4a; color: white; padding: 8px 20px; border-radius: 50px;">
+                        <span style="font-size: 11px; font-weight: 800;">PRIORITY WINDOW:</span>
+                        <span id="countdownTimer" style="font-family: monospace; font-size: 18px; font-weight: 900; color: var(--liv-gold);">15:59</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    window.addEventListener('load', function() {
+        const pBar = document.getElementById('finalPBar');
+        setTimeout(() => { pBar.style.width = '91%'; }, 100);
+
+        // Sequential Reveal Logic
+        setTimeout(() => {
+            document.getElementById('loader-overlay').style.display = 'none';
+            
+            const sections = ['rangeContent', 'bonusSection', 'heatmapSection', 'verificationSection'];
+            sections.forEach((id, index) => {
+                setTimeout(() => {
+                    document.getElementById(id).classList.add('revealed');
+                }, index * 400); // 400ms delay between each section for a smooth flow
+            });
+        }, 2000);
+
+        // Countdown Timer
+        let time = 15 * 60 + 59;
+        const display = document.getElementById('countdownTimer');
+        const countdown = setInterval(() => {
+            let mins = Math.floor(time / 60);
+            let secs = time % 60;
+            display.textContent = `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+            if (time <= 0) clearInterval(countdown);
+            else time--;
+        }, 1000);
+    });
+</script>
+
+<div id="expertSection" class="reveal-element" style="margin-top: 2rem; padding: 2.2rem; background: #072220; border-radius: 2rem; border: 1px solid rgba(255,255,255,0.1); text-align: left; font-family: 'Inter', system-ui, -apple-system, sans-serif;">
+    
+    <style>
+        @keyframes pulse-green-text {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.8; transform: scale(1.02); }
+        }
+        .force-show { filter: blur(0) !important; opacity: 1 !important; transform: translateY(0) !important; }
+    </style>
+
+    <p style="text-align: center; font-size: 19px; font-weight: 900; color: #4ade80; margin-bottom: 2rem; text-transform: uppercase; letter-spacing: 0.5px; animation: pulse-green-text 1.2s infinite ease-in-out;">
+        📱 Please keep your phone nearby for James
+    </p>
+
+    <div style="background: rgba(255, 255, 255, 0.03); border-radius: 1.5rem; padding: 1.8rem; border: 1px solid rgba(255,255,255,0.08);">
+        <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 1.5rem;">
+            <div style="width: 65px; height: 65px; border-radius: 50%; border: 2px solid #489085; overflow: hidden; flex-shrink: 0;">
+                <img src="https://t3.ftcdn.net/jpg/02/99/04/20/360_F_299042079_vYeRICqKqS3d2VveJV5SRLp194Y8nLWO.jpg" alt="Expert" style="width: 100%; height: 100%; object-fit: cover;">
+            </div>
+            <div>
+                <p style="font-size: 20px; font-weight: 800; margin: 0; color: #ffffff; letter-spacing: -0.5px;">James Harrison</p>
+                <p style="font-size: 12px; font-weight: 700; color: #4ade80; margin: 0; text-transform: uppercase; opacity: 0.9;">L4 Valuation Specialist</p>
+            </div>
+        </div>
+        
+        <p style="margin: 0 0 1.2rem 0; font-size: 15px; line-height: 1.6; color: #ffffff; opacity: 0.95;">
+            I have spent over 12 years analyzing property specifically within the <strong>L4 postcode</strong>. I am currently cross-referencing your home's unique features against our private database of "off-market" sales to find your hidden equity.
+        </p>
+
+        <p style="margin: 0; font-size: 15px; line-height: 1.6; color: #ffffff; opacity: 0.95;">
+            I will be calling you shortly to verify the specific upgrades you’ve listed. This 2-minute conversation is the final step required to <strong>unlock your 100% accurate valuation report</strong> and priority buyer heatmap.
+        </p>
+    </div>
+
+    <script>
+        setTimeout(() => {
+            document.getElementById('expertSection').classList.add('force-show');
+        }, 800);
+    </script>
+</div>
+       
 
