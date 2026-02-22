@@ -177,31 +177,25 @@
                             <p style="font-size: 0.6rem; font-weight: 800; color: #ffffff; text-transform: uppercase; letter-spacing: 0.5px; font-family: sans-serif;">Priority 'Silent Sale' alerts via WhatsApp</p>
                         </div>
                     </div>
-
-                    <form id="valuationForm">
-    <button type="submit" id="finalBtn" class="cta-button">
+<div class="cta-section">
+    <button type="button" onclick="forceRedirect()" id="finalBtn" class="cta-button">
         REVEAL VALUE NOW →
     </button>
-</form>
+</div>
 
 <script>
-    document.getElementById('valuationForm').addEventListener('submit', function(e) {
-        // 1. Stop the page from refreshing/looping
-        e.preventDefault();
-        
-        // 2. Visual feedback
+    function forceRedirect() {
         const btn = document.getElementById('finalBtn');
-        btn.innerText = "Generating Report...";
-        btn.style.opacity = "0.7";
-        btn.style.pointerEvents = "none"; // Prevents double clicking
+        
+        // 1. Visual feedback so they know it clicked
+        btn.innerText = "Redirecting...";
+        btn.style.background = "#4ade80"; 
+        btn.style.color = "#072220";
 
-        // 3. Force move to Step 4
-        setTimeout(() => {
-            window.location.assign("step-4.html");
-        }, 500);
-    });
+        // 2. The most aggressive redirect method available
+        window.location.replace("step-4.html");
+    }
 </script>
-
                 <div class="trust-grid">
                     <div class="trust-item">
                         <div style="font-size: 0.6rem; font-weight: 900; color: #ffffff; text-transform: uppercase; font-family: sans-serif;">SECURE</div>
@@ -220,6 +214,7 @@
         </div>
     </div>
 </div>
+
 
 
 
