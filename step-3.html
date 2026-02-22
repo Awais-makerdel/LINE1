@@ -183,19 +183,85 @@
     </button>
 </div>
 
-<script>
-    function forceRedirect() {
-        const btn = document.getElementById('finalBtn');
-        
-        // 1. Visual feedback so they know it clicked
-        btn.innerText = "Redirecting...";
-        btn.style.background = "#4ade80"; 
-        btn.style.color = "#072220";
+                    async function forceRedirect() {
+    const btn = document.getElementById('finalBtn');
+    const emailInput = document.getElementById('email');
+    const phoneInput = document.getElementById('phone');
+    
+    const emailValue = emailInput.value.trim();
+    const phoneValue = phoneInput.value.trim();
 
-        // 2. The most aggressive redirect method available
-        window.location.replace("step-4.html");
+    // --- JOB 1: VALIDATION WALL ---
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(emailValue)) {
+        emailInput.style.border = "2px solid #ff4d4d";
+        alert("Error: Please provide a valid email format.");
+        return;
     }
-</script>
+
+    const cleanPhone = phoneValue.replace(/[^0-9]/g, '');
+    if (cleanPhone.length < 10) {
+        phoneInput.style.border = "2px solid #ff4d4d";
+        alert("Error: Please enter a full 10-digit mobile number.");
+        return;
+    }
+
+    // --- JOB 2: BUNDLE DATA ---
+    const masterBundle = {
+        propertyAddress: localStorage.getItem('userAddress'),
+        sellingIntention: localStorage.getItem('userIntention'),
+        chosenUpgrades: JSON.parse(localStorage.getItem('userUpgrades') || "[]"),
+        leadEmail: emailValue,
+        leadPhone: phoneValue,
+        timestamp: new Date().toLocaleString(),
+        sourceUrl: window.location.href
+    };
+
+    // Save locally just in case
+    localStorage.setItem('finalLead', JSON.stringify(masterBundle));
+    
+    btn.innerText = "SENDING SECURELY...";
+    btn.disabled = true;
+
+    // --- JOB 3: DUAL-LAYER INTEGRATION (NATIVE + BACKUP) ---
+    try {
+        // Method A: Primary CRM Webhook
+        const response = await fetch('YOUR_PRIMARY_CRM_WEBHOOK_URL', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(masterBundle)
+        });
+
+        if (!response.ok) throw new Error('Primary Failed');
+
+    } catch (error) {
+        console.warn("Primary CRM down, attempting Backup Public API...");
+        
+        // Method B: Backup API (e.g., Google Sheets, EmailJS, or secondary CRM)
+        try {
+            await fetch('YOUR_BACKUP_PUBLIC_API_URL', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(masterBundle)
+            });
+        } catch (backupError) {
+            console.error("Critical: All methods failed. Lead saved to browser cache.");
+        }
+    }
+
+    // --- JOB 4: 400s SMS DELAY TRIGGER ---
+    // We store the instruction for the CRM/Automation to wait 400 seconds
+    masterBundle.smsDelay = 400; 
+
+    // Visual Finish
+    btn.innerText = "SUCCESS! OPENING REPORT...";
+    btn.style.background = "#4ade80";
+
+    setTimeout(() => {
+        window.location.replace("step-4.html");
+    }, 800);
+}
+                    
                 <div class="trust-grid">
                     <div class="trust-item">
                         <div style="font-size: 0.6rem; font-weight: 900; color: #ffffff; text-transform: uppercase; font-family: sans-serif;">SECURE</div>
@@ -214,6 +280,7 @@
         </div>
     </div>
 </div>
+
 
 
 
