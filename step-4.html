@@ -172,11 +172,9 @@
             <div class="reveal-element" id="bonusSection" style="text-align: left;">
                 <h3 style="font-size: 22px; font-weight: 900; color: var(--liv-gold); text-transform: uppercase; margin-bottom: 1.5rem;">💎 EQUITY BONUS</h3>
                 
-                <div style="margin-bottom: 2rem;">
-                    <div class="feature-item"><span class="plus-sign">+</span> Modern Kitchen</div>
-                    <div class="feature-item"><span class="plus-sign">+</span> Private Driveway</div>
-                    <div class="feature-item"><span class="plus-sign">+</span> HMO Potential</div>
-                </div>
+                <div id="displayFeatures" style="margin-bottom: 2rem;">
+    <div class="feature-item" style="opacity: 0.5;">Loading property data...</div>
+</div>
 
                 <p style="font-size: 17px; line-height: 1.6; font-weight: 500; margin-bottom: 3rem;">
                     Based on your L4 home’s specific upgrades, you could be eligible for a 
@@ -331,3 +329,31 @@
 </div>
        
 
+<script>
+    // This function runs automatically to fill your Step 4 with data
+    (function() {
+        // 1. Find the hooks you just created
+        const featureContainer = document.getElementById('displayFeatures');
+        
+        // 2. Get the data from Step 2 memory
+        const savedFeatures = JSON.parse(localStorage.getItem('userFeatures') || '[]');
+
+        if (featureContainer) {
+            // Clear any "Loading" or old text
+            featureContainer.innerHTML = ''; 
+
+            if (savedFeatures.length > 0) {
+                // Loop through and build your feature list
+                savedFeatures.forEach(feature => {
+                    const featureDiv = document.createElement('div');
+                    featureDiv.className = 'feature-item';
+                    featureDiv.innerHTML = `<span class="plus-sign">+</span> ${feature}`;
+                    featureContainer.appendChild(featureDiv);
+                });
+            } else {
+                // Fallback if nothing was selected
+                featureContainer.innerHTML = '<div class="feature-item"><span class="plus-sign">+</span> Standard Spec</div>';
+            }
+        }
+    })();
+</script>
