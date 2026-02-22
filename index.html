@@ -219,39 +219,44 @@ background-position: center bottom;
         REVEAL VALUE →
     </button>
 </div>
+function manualSubmit() {
+    // 1. Capture the elements
+    const addressInput = document.getElementById('autoComplete');
+    const selectedRadio = document.querySelector('input[name="timeframe"]:checked');
+    
+    // 2. Get the values
+    const addressValue = addressInput ? addressInput.value.trim() : '';
 
-<script>
-    function manualSubmit() {
-        // 1. Capture the elements
-        const addressInput = document.getElementById('autoComplete');
-        const selectedRadio = document.querySelector('input[name="timeframe"]:checked');
-        
-        // 2. Get the values
-        const addressValue = addressInput ? addressInput.value.trim() : '';
-        const timeframeValue = selectedRadio ? selectedRadio.value : 'Not selected';
+    // 3. THE WALL: Stop if address is empty
+    if (!addressValue || addressValue.length < 5) {
+        addressInput.style.border = "2px solid #ff4d4d"; 
+        alert("Please enter your property address to continue.");
+        return; // Stops the user here
+    }
 
-        // 3. Validation: Stop if address is empty
-        if (!addressValue) {
-            addressInput.style.border = "2px solid #ff4a4a"; // Visual warning
-            alert("Please enter a Postcode or Street to continue.");
-            return;
-        }
+    // 4. THE WALL: User MUST select an intention
+    if (!selectedRadio) {
+        alert("Please select your intention to sell (READY, 1-3 MO, etc.) to continue.");
+        return; // Stops the user here
+    }
 
-        // 4. Save everything to browser memory
-        localStorage.setItem('userAddress', addressValue);
-        localStorage.setItem('userIntention', timeframeValue);
+    // 5. THE BRIDGE: Save data to browser memory for Step 2
+    localStorage.setItem('userAddress', addressValue);
+    localStorage.setItem('userIntention', selectedRadio.value);
 
-        // 5. Visual feedback on button
-        const btn = document.querySelector('.cta-start');
+    // 6. Visual feedback on button
+    const btn = document.querySelector('.cta-start');
+    if (btn) {
         btn.innerText = "VERIFYING ADDRESS...";
         btn.style.opacity = "0.8";
-
-        // 6. Redirect to Step 2
-        setTimeout(() => {
-            window.location.href = "step-2.html";
-        }, 600);
     }
-</script>        <div style="background: #fff; padding: 1rem; text-align: center;">
+
+    // 7. Redirect to Step 2
+    setTimeout(() => {
+        window.location.href = "step-2.html";
+    }, 600);
+}
+                <div style="background: #fff; padding: 1rem; text-align: center;">
             <p style="font-size: 10px; font-weight: 800; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.1em;">
                 Powered by Local L4 Sold Data • Updated 2026
             </p>
