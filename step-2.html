@@ -203,12 +203,16 @@
             </div>
 
             <button id="calcBtn" onclick="handleCalculation()" class="cta-step2">
-                Calculate My Equity →
-            </button>
-        </div>
-    </div>
-</div>
+    Calculate My Equity →
+</button>
 
+<script>
+    function handleCalculation() {
+        // Redirects user to Step 3
+        window.location.href = "step-3.html";
+    }
+</script>
+            
 <script>
     function handleCalculation() {
         const btn = document.getElementById('calcBtn');
