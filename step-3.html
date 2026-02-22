@@ -178,11 +178,29 @@
                         </div>
                     </div>
 
-                    <form onsubmit="event.preventDefault(); window.location.href='step-4.html';">
-    <button type="submit" class="cta-button">
+                    <form id="valuationForm">
+    <button type="submit" id="finalBtn" class="cta-button">
         REVEAL VALUE NOW →
     </button>
 </form>
+
+<script>
+    document.getElementById('valuationForm').addEventListener('submit', function(e) {
+        // 1. Stop the page from refreshing/looping
+        e.preventDefault();
+        
+        // 2. Visual feedback
+        const btn = document.getElementById('finalBtn');
+        btn.innerText = "Generating Report...";
+        btn.style.opacity = "0.7";
+        btn.style.pointerEvents = "none"; // Prevents double clicking
+
+        // 3. Force move to Step 4
+        setTimeout(() => {
+            window.location.assign("step-4.html");
+        }, 500);
+    });
+</script>
 
                 <div class="trust-grid">
                     <div class="trust-item">
@@ -202,5 +220,6 @@
         </div>
     </div>
 </div>
+
 
 
