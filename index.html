@@ -222,12 +222,36 @@ background-position: center bottom;
 
 <script>
     function manualSubmit() {
-        // Redirects user to Step 2
-        window.location.href = "step-2.html";
-    }
-</script>
+        // 1. Capture the elements
+        const addressInput = document.getElementById('autoComplete');
+        const selectedRadio = document.querySelector('input[name="timeframe"]:checked');
         
-        <div style="background: #fff; padding: 1rem; text-align: center;">
+        // 2. Get the values
+        const addressValue = addressInput ? addressInput.value.trim() : '';
+        const timeframeValue = selectedRadio ? selectedRadio.value : 'Not selected';
+
+        // 3. Validation: Stop if address is empty
+        if (!addressValue) {
+            addressInput.style.border = "2px solid #ff4a4a"; // Visual warning
+            alert("Please enter a Postcode or Street to continue.");
+            return;
+        }
+
+        // 4. Save everything to browser memory
+        localStorage.setItem('userAddress', addressValue);
+        localStorage.setItem('userIntention', timeframeValue);
+
+        // 5. Visual feedback on button
+        const btn = document.querySelector('.cta-start');
+        btn.innerText = "VERIFYING ADDRESS...";
+        btn.style.opacity = "0.8";
+
+        // 6. Redirect to Step 2
+        setTimeout(() => {
+            window.location.href = "step-2.html";
+        }, 600);
+    }
+</script>        <div style="background: #fff; padding: 1rem; text-align: center;">
             <p style="font-size: 10px; font-weight: 800; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.1em;">
                 Powered by Local L4 Sold Data • Updated 2026
             </p>
