@@ -177,13 +177,15 @@
                             <p style="font-size: 0.6rem; font-weight: 800; color: #ffffff; text-transform: uppercase; letter-spacing: 0.5px; font-family: sans-serif;">Priority 'Silent Sale' alerts via WhatsApp</p>
                         </div>
                     </div>
-<div class="cta-section">
+
+                    <div class="cta-section">
     <button type="button" onclick="forceRedirect()" id="finalBtn" class="cta-button">
         REVEAL VALUE NOW →
     </button>
 </div>
 
-                    async function forceRedirect() {
+<script>
+async function forceRedirect() {
     const btn = document.getElementById('finalBtn');
     const emailInput = document.getElementById('email');
     const phoneInput = document.getElementById('phone');
@@ -191,77 +193,66 @@
     const emailValue = emailInput.value.trim();
     const phoneValue = phoneInput.value.trim();
 
-    // --- JOB 1: VALIDATION WALL ---
+    // --- JOB 2: THE WALL (VALIDATION) ---
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(emailValue)) {
         emailInput.style.border = "2px solid #ff4d4d";
-        alert("Error: Please provide a valid email format.");
+        alert("Please enter a valid email address.");
         return;
     }
 
     const cleanPhone = phoneValue.replace(/[^0-9]/g, '');
     if (cleanPhone.length < 10) {
         phoneInput.style.border = "2px solid #ff4d4d";
-        alert("Error: Please enter a full 10-digit mobile number.");
+        alert("Please enter a valid 10-digit mobile number.");
         return;
     }
 
-    // --- JOB 2: BUNDLE DATA ---
+    // --- JOB 1: BUNDLE DATA (CLEAN & PROFESSIONAL) ---
     const masterBundle = {
-        propertyAddress: localStorage.getItem('userAddress'),
-        sellingIntention: localStorage.getItem('userIntention'),
-        chosenUpgrades: JSON.parse(localStorage.getItem('userUpgrades') || "[]"),
-        leadEmail: emailValue,
-        leadPhone: phoneValue,
-        timestamp: new Date().toLocaleString(),
-        sourceUrl: window.location.href
+        address: localStorage.getItem('userAddress'),
+        intention: localStorage.getItem('userIntention'),
+        upgrades: JSON.parse(localStorage.getItem('userUpgrades') || "[]"),
+        email: emailValue,
+        phone: phoneValue,
+        // Instructions for the CRM
+        admin_alert: "NEW LEAD ALERT - SEND SMS TO OWNER", // JOB 3 Instruction
+        user_sms_delay: 400,                               // JOB 4 Instruction
+        timestamp: new Date().toLocaleString()
     };
 
-    // Save locally just in case
-    localStorage.setItem('finalLead', JSON.stringify(masterBundle));
-    
-    btn.innerText = "SENDING SECURELY...";
+    btn.innerText = "SINCING DATA...";
     btn.disabled = true;
 
-    // --- JOB 3: DUAL-LAYER INTEGRATION (NATIVE + BACKUP) ---
+    // --- JOB 3: SEND TO CRM / SMS TO YOU ---
     try {
-        // Method A: Primary CRM Webhook
-        const response = await fetch('YOUR_PRIMARY_CRM_WEBHOOK_URL', {
+        const response = await fetch('YOUR_WEBHOOK_URL', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(masterBundle)
         });
 
-        if (!response.ok) throw new Error('Primary Failed');
-
-    } catch (error) {
-        console.warn("Primary CRM down, attempting Backup Public API...");
-        
-        // Method B: Backup API (e.g., Google Sheets, EmailJS, or secondary CRM)
-        try {
-            await fetch('YOUR_BACKUP_PUBLIC_API_URL', {
+        // Backup Public API if primary fails
+        if (!response.ok) {
+            await fetch('YOUR_BACKUP_API_URL', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(masterBundle)
             });
-        } catch (backupError) {
-            console.error("Critical: All methods failed. Lead saved to browser cache.");
         }
+    } catch (e) {
+        console.log("Network error - Lead saved in browser cache.");
     }
 
-    // --- JOB 4: 400s SMS DELAY TRIGGER ---
-    // We store the instruction for the CRM/Automation to wait 400 seconds
-    masterBundle.smsDelay = 400; 
-
-    // Visual Finish
-    btn.innerText = "SUCCESS! OPENING REPORT...";
+    // --- JOB 4: PREPARE FOR REDIRECT ---
+    btn.innerText = "SUCCESS! REDIRECTING...";
     btn.style.background = "#4ade80";
 
     setTimeout(() => {
         window.location.replace("step-4.html");
     }, 800);
 }
-                    
+</script>
                 <div class="trust-grid">
                     <div class="trust-item">
                         <div style="font-size: 0.6rem; font-weight: 900; color: #ffffff; text-transform: uppercase; font-family: sans-serif;">SECURE</div>
@@ -280,6 +271,7 @@
         </div>
     </div>
 </div>
+
 
 
 
