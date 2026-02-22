@@ -201,36 +201,27 @@
                     <span class="feature-text">Full Renovation</span>
                 </div>
             </div>
-
-            <button id="calcBtn" onclick="handleCalculation()" class="cta-step2">
+<button id="calcBtn" onclick="handleCalculation()" class="cta-step2">
     Calculate My Equity →
 </button>
 
 <script>
     function handleCalculation() {
-        // Redirects user to Step 3
-        window.location.href = "step-3.html";
-    }
-</script>
-            
-<script>
-    function handleCalculation() {
         const btn = document.getElementById('calcBtn');
         const pBar = document.getElementById('pBar');
         
+        // Start animation
         btn.classList.add('cta-loading');
         btn.innerText = "Analyzing Data...";
         
-        // Boost bar to show final progress during the wait
-        pBar.style.width = "92%";
+        // Boost progress bar if it exists
+        if (pBar) {
+            pBar.style.width = "92%";
+        }
         
+        // Wait 2 seconds then redirect to Step 3
         setTimeout(() => {
-            if (typeof nextStep === "function") {
-                nextStep(3);
-            } else {
-                console.log("Proceeding to Step 3...");
-            }
+            window.location.href = "step-3.html";
         }, 2000);
     }
 </script>
-
