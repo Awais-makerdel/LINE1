@@ -1,5 +1,8 @@
 <div id="step2" class="step-card">
-    <style>
+    <div style="text-align: center; margin-bottom: 20px;">
+        <p style="color: rgba(255,255,255,0.6); font-size: 12px; margin: 0;">VALUATION FOR:</p>
+        <h2 id="addressHook" style="color: #fbbf24; margin: 5px 0; font-size: 20px; font-weight: 800;"></h2>
+    </div>
         :root {
             --liv-teal: #489085;
             --liv-teal-dark: #3a756c;
@@ -206,22 +209,32 @@
 </button>
 
 <script>
+// 1. Run this immediately when Step 2 loads
+document.addEventListener('DOMContentLoaded', () => {
+    const savedAddr = localStorage.getItem('userAddress');
+    const display = document.getElementById('addressHook');
+    
+    if (savedAddr && display) {
+        display.innerText = savedAddr; // This puts the Step 1 address here
+    }
+});
+
+// 2. The Logic for the "Next" button
 function handleCalculation() {
-    // 1. Find all tiles that the user clicked (the ones with the 'selected' class)
+    // Check if any tiles are selected
     const activeTiles = document.querySelectorAll('.feature-tile.selected');
-    const selectedFeatures = [];
+    
+    // THE WALL: If nothing is clicked, block them
+    if (activeTiles.length === 0) {
+        alert("Please select at least one upgrade to see your bonus value.");
+        return; 
+    }
 
-    // 2. Loop through them and grab the text inside
-    activeTiles.forEach(tile => {
-        const text = tile.querySelector('.feature-text').innerText.replace(/\n/g, ' ');
-        selectedFeatures.push(text);
-    });
+    // Save the choices (Optional but good for leads)
+    const selectedFeatures = Array.from(activeTiles).map(tile => tile.innerText.trim());
+    localStorage.setItem('userUpgrades', JSON.stringify(selectedFeatures));
 
-    // 3. Save to the browser's memory
-    localStorage.setItem('userFeatures', JSON.stringify(selectedFeatures));
-
-    // 4. Move to Step 3
-    // Make sure this filename matches your Step 3 file
+    // Move to Step 3
     window.location.href = "step-3.html"; 
 }
 </script>
