@@ -206,22 +206,22 @@
 </button>
 
 <script>
-    function handleCalculation() {
-        const btn = document.getElementById('calcBtn');
-        const pBar = document.getElementById('pBar');
-        
-        // Start animation
-        btn.classList.add('cta-loading');
-        btn.innerText = "Analyzing Data...";
-        
-        // Boost progress bar if it exists
-        if (pBar) {
-            pBar.style.width = "92%";
-        }
-        
-        // Wait 2 seconds then redirect to Step 3
-        setTimeout(() => {
-            window.location.href = "step-3.html";
-        }, 2000);
-    }
+function handleCalculation() {
+    // 1. Find all tiles that the user clicked (the ones with the 'selected' class)
+    const activeTiles = document.querySelectorAll('.feature-tile.selected');
+    const selectedFeatures = [];
+
+    // 2. Loop through them and grab the text inside
+    activeTiles.forEach(tile => {
+        const text = tile.querySelector('.feature-text').innerText.replace(/\n/g, ' ');
+        selectedFeatures.push(text);
+    });
+
+    // 3. Save to the browser's memory
+    localStorage.setItem('userFeatures', JSON.stringify(selectedFeatures));
+
+    // 4. Move to Step 3
+    // Make sure this filename matches your Step 3 file
+    window.location.href = "step-3.html"; 
+}
 </script>
