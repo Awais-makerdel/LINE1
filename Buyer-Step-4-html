@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Asset Verification | Estate Spark</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&family=Playfair+Display:ital,wght@1,900&display=swap');
+        
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            background-color: #020617; 
+            color: #e2e8f0; 
+            overflow-x: hidden; 
+        }
+        
+        .viewport-wrapper {
+            min-height: 100vh;
+            background: radial-gradient(circle at top right, rgba(20, 184, 166, 0.1), transparent),
+                        linear-gradient(180deg, #020617 0%, #0f172a 100%);
+        }
+
+        /* 1. HERO: THE BLURRED PRIZE */
+        .property-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            width: 100%;
+        }
+
+        .property-box {
+            aspect-ratio: 1 / 1;
+            background-size: cover;
+            background-position: center;
+            filter: blur(10px) brightness(0.5);
+            border-radius: 12px;
+            border: 1px solid rgba(20, 184, 166, 0.2);
+            position: relative;
+        }
+
+        .lock-overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 20;
+            color: #d4af37;
+        }
+
+        /* 2. CHOICE ARCHITECTURE: STRATEGY CARDS */
+        .strategy-card {
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+        }
+        .strategy-card:hover {
+            border-color: #14b8a6;
+            background: rgba(20, 184, 166, 0.05);
+            transform: translateY(-5px);
+        }
+        .selected-path {
+            border: 2px solid #14b8a6 !important;
+            background: rgba(20, 184, 166, 0.1) !important;
+        }
+
+        /* 3. FRICTION: THE VETTING VAULT */
+        .friction-vault {
+            border-left: 3px solid #991b1b;
+            background: rgba(153, 27, 27, 0.05);
+        }
+
+        /* ANIMATIONS */
+        .btn-pulse {
+            animation: pulse-teal 2.5s infinite;
+        }
+
+        @keyframes pulse-teal {
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(20, 184, 166, 0.4); }
+            70% { transform: scale(1.02); box-shadow: 0 0 0 15px rgba(20, 184, 166, 0); }
+            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(20, 184, 166, 0); }
+        }
+
+        .input-focus:focus {
+            border-color: #14b8a6;
+            outline: none;
+        }
+      /* TIGHTEN SYSTEM SPACING */
+section {
+    padding-top: 4rem !important;    /* Reduced from 12rem */
+    padding-bottom: 4rem !important; /* Reduced from 12rem */
+    margin-top: 0 !important;        /* Eliminate external gaps */
+    margin-bottom: 0 !important;
+}
+
+/* CONNECT SECTIONS WITH ARCHITECTURAL LINES */
+section:not(:last-child) {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* OVERRIDE TAILWIND UTILITY MARGINS */
+.mt-40, .mt-32, .my-32 {
+    margin-top: 3rem !important;
+    margin-bottom: 3rem !important;
+}
+
+/* HERO HEIGHT OPTIMIZATION */
+.min-h-screen {
+    min-height: 80vh !important; /* Pulls Section 2 up into view */
+}
+    </style>
+</head>
+<body>
+  
+
+    <div class="viewport-wrapper flex flex-col items-center px-6 py-12">
+        
+        <div class="max-w-md w-full space-y-8 mb-16">
+            <div class="property-grid">
+                <div class="relative">
+                    <div class="property-box" style="background-image: url('https://images.unsplash.com/photo-1580587771525-78b9dba3b914?auto=format&fit=crop&w=300');"></div>
+                    <div class="lock-overlay"><i data-lucide="lock" class="w-5 h-5"></i></div>
+                    <p class="text-[7px] text-center mt-2 text-slate-500 font-black tracking-widest uppercase">L22 // SECURE</p>
+                </div>
+                <div class="relative">
+                    <div class="property-box" style="background-image: url('https://images.unsplash.com/photo-1518780664697-55e3ad937233?auto=format&fit=crop&w=300');"></div>
+                    <div class="lock-overlay"><i data-lucide="lock" class="w-5 h-5"></i></div>
+                    <p class="text-[7px] text-center mt-2 text-slate-500 font-black tracking-widest uppercase">L18 // SECURE</p>
+                </div>
+                <div class="relative">
+                    <div class="property-box" style="background-image: url('https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=300');"></div>
+                    <div class="lock-overlay"><i data-lucide="lock" class="w-5 h-5"></i></div>
+                    <p class="text-[7px] text-center mt-2 text-slate-500 font-black tracking-widest uppercase">M14 // SECURE</p>
+                </div>
+            </div>
+
+      <section class="relative min-h-[70vh] flex flex-col items-center justify-center px-6 text-center overflow-hidden">
+    
+    <div class="mb-12 flex justify-center space-x-3 md:space-x-6 animate-fade-in opacity-40">
+        <span class="text-[8px] md:text-[9px] font-black text-slate-500 tracking-[0.5em] border border-white/5 px-5 py-2 rounded-full uppercase italic">L22 // SECURE</span>
+        <span class="text-[8px] md:text-[9px] font-black text-slate-500 tracking-[0.5em] border border-white/5 px-5 py-2 rounded-full uppercase italic">L18 // SECURE</span>
+        <span class="text-[8px] md:text-[9px] font-black text-slate-500 tracking-[0.5em] border border-white/5 px-5 py-2 rounded-full uppercase italic">M14 // SECURE</span>
+    </div>
+
+    <div class="max-w-5xl mx-auto space-y-12">
+        <h1 class="text-6xl md:text-8xl font-[900] text-white uppercase italic leading-[0.85] tracking-[-0.06em]">
+            Assigning Private <br>
+            <span class="text-teal-400 drop-shadow-[0_0_25px_rgba(20,184,166,0.25)]">Access Pass</span>
+        </h1>
+
+        <div class="max-w-2xl mx-auto space-y-8">
+            <p class="text-[12px] md:text-[14px] text-slate-300 font-extrabold uppercase tracking-[0.3em] leading-relaxed">
+                Standard buyers wait for <span class="text-white border-b border-teal-500/50">Rightmove notifications</span>. <br>
+                Strategic Investors verify their identity here. 
+            </p>
+            
+            <div class="flex items-center justify-center space-x-4">
+                <div class="h-[1px] w-8 bg-slate-800"></div>
+                <div class="h-1 w-1 bg-teal-500 rotate-45"></div>
+                <div class="h-[1px] w-8 bg-slate-800"></div>
+            </div>
+
+            <p class="text-[10px] md:text-[12px] text-slate-500 font-bold uppercase tracking-[0.2em] leading-loose px-6 max-w-xl mx-auto italic">
+                Our floorplans and 'Price-to-Clear' internal metrics are <span class="text-teal-500/80">strictly restricted</span>. 
+                We don't broadcast to the public; we assign to the prepared.
+            </p>
+        </div>
+    </div>
+
+    <div class="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_center,rgba(20,184,166,0.05)_0%,transparent_70%)]"></div>
+</section>
+
+          
+          <section class="max-w-7xl mx-auto py-32 px-6 grid md:grid-cols-2 gap-20 items-start">
+    
+    <div class="space-y-12">
+        <div class="space-y-4">
+            <span class="text-[11px] font-black text-teal-500 uppercase tracking-[0.6em] block">Intelligence Report // 01</span>
+            <h2 class="text-5xl md:text-6xl font-[900] text-white uppercase italic leading-none tracking-tighter">
+                Bypass the <br><span class="text-slate-600">Portal Bidding Wars</span>
+            </h2>
+        </div>
+
+        <div class="relative pl-8 border-l-2 border-teal-500/20">
+            <p class="text-base md:text-lg text-slate-400 leading-relaxed font-medium">
+                Public portals are where <span class="text-white italic">deals go to die</span>. By the time an asset hits Rightmove, it has been picked over, stripped of its margin, and inflated by retail bidding wars. You aren't buying an opportunity—you're buying the <span class="text-teal-400">leftovers</span>.
+            </p>
+        </div>
+
+        <div class="grid gap-8 pt-6">
+            <div class="group flex items-center space-x-6">
+                <span class="text-2xl font-black text-teal-500 group-hover:animate-pulse">[!]</span>
+                <div>
+                    <h4 class="text-xs font-black text-white uppercase tracking-[0.2em]">Pre-emptive Strike Capability</h4>
+                    <p class="text-[10px] text-slate-500 uppercase font-bold mt-1 tracking-widest">Zero Public Competition. Pure Advantage.</p>
+                </div>
+            </div>
+            <div class="group flex items-center space-x-6">
+                <span class="text-2xl font-black text-teal-500 group-hover:animate-pulse">[!]</span>
+                <div>
+                    <h4 class="text-xs font-black text-white uppercase tracking-[0.2em]">Off-Market Extraction</h4>
+                    <p class="text-[10px] text-slate-500 uppercase font-bold mt-1 tracking-widest">Direct-to-Vendor Pipelines. Deep Liquidity.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="relative sticky top-24">
+        <div class="absolute -inset-10 bg-teal-500/5 blur-[120px] rounded-full pointer-events-none"></div>
+        
+        <div class="relative bg-[#050a18] border border-white/5 p-10 md:p-14 rounded-sm shadow-2xl">
+            <div class="flex justify-between items-center mb-10 opacity-40">
+                <span class="text-[8px] font-black text-white uppercase tracking-[0.5em]">ESTATE SPARK // SHADOW_MARKET.SYS</span>
+                <div class="flex space-x-1.5">
+                    <div class="w-1 h-1 bg-teal-500"></div>
+                    <div class="w-1 h-1 bg-slate-700"></div>
+                    <div class="w-1 h-1 bg-slate-700"></div>
+                </div>
+            </div>
+
+            <p class="text-[13px] text-slate-300 font-bold leading-relaxed uppercase tracking-widest">
+                Estate Spark operates in the shadow market, securing assets <span class="text-white">before the vendor's own neighbors</span> know they’re selling.
+            </p>
+
+            <div class="mt-12 space-y-4">
+                <div class="flex justify-between items-end">
+                    <span class="text-[9px] font-black text-teal-500 uppercase tracking-widest">Extraction Pulse:</span>
+                    <span class="text-[10px] font-mono text-white">88% SECURE</span>
+                </div>
+                <div class="h-[2px] w-full bg-slate-900 overflow-hidden">
+                    <div class="h-full bg-teal-500 w-3/4 animate-[shimmer_3s_infinite_linear]"></div>
+                </div>
+                <p class="text-[8px] text-slate-600 font-black uppercase tracking-[0.3em] text-right italic">Bypassing public encryption...</p>
+            </div>
+        </div>
+    </div>
+</section>
+ <section class="max-w-7xl mx-auto py-32 px-6 space-y-24">
+    
+    <div class="text-center space-y-6">
+        <div class="inline-flex items-center space-x-3 text-teal-500 mb-2">
+            <i data-lucide="zap" class="w-5 h-5 fill-current"></i>
+            <span class="text-[11px] font-black uppercase tracking-[0.6em]">Zero-Latency Delivery</span>
+        </div>
+        <h2 class="text-5xl md:text-7xl font-[900] text-white uppercase italic tracking-tighter leading-[0.85]">
+            The Speed <br><span class="text-teal-400">Of Capital</span>
+        </h2>
+        <p class="text-[13px] text-slate-400 max-w-2xl mx-auto font-bold uppercase tracking-[0.2em] leading-loose">
+            Estate agents keep office hours. We operate on the frequency of the market. Information asymmetry is your only true leverage.
+        </p>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-8">
+        
+        <div class="bg-slate-950 border border-white/5 p-10 rounded-sm relative group overflow-hidden">
+            <div class="absolute -right-8 -top-8 opacity-[0.02] group-hover:opacity-[0.05] transition-opacity">
+                <i data-lucide="message-square" class="w-48 h-48 text-white"></i>
+            </div>
+            <div class="space-y-6 relative z-10">
+                <div class="flex items-center space-x-4">
+                    <div class="bg-teal-500/10 p-3">
+                        <i data-lucide="smartphone" class="w-6 h-6 text-teal-500"></i>
+                    </div>
+                    <h3 class="text-2xl font-[900] uppercase italic text-white">The Priority Trigger</h3>
+                </div>
+                <p class="text-[12px] text-slate-400 font-bold uppercase tracking-widest leading-relaxed">
+                    When a vendor’s bottom line drops, your handset vibrates. No 'checking the mail.' No portal refreshes. Just raw, <span class="text-white">instant liquidity updates.</span>
+                </p>
+                <ul class="text-[10px] font-black text-teal-500 space-y-4 uppercase tracking-[0.3em] pt-4">
+                    <li class="flex items-center"><span class="mr-3 text-white opacity-20">[+]</span> Instant Property Coordinates</li>
+                    <li class="flex items-center"><span class="mr-3 text-white opacity-20">[+]</span> Direct WhatsApp 'Strike' Link</li>
+                    <li class="flex items-center"><span class="mr-3 text-white opacity-20">[+]</span> Real-Time Motivation Alerts</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="bg-slate-950 border border-white/5 p-10 rounded-sm relative group overflow-hidden">
+            <div class="absolute -right-8 -top-8 opacity-[0.02] group-hover:opacity-[0.05] transition-opacity">
+                <i data-lucide="mail" class="w-48 h-48 text-white"></i>
+            </div>
+            <div class="space-y-6 relative z-10">
+                <div class="flex items-center space-x-4">
+                    <div class="bg-slate-800/50 p-3">
+                        <i data-lucide="file-text" class="w-6 h-6 text-slate-300"></i>
+                    </div>
+                    <h3 class="text-2xl font-[900] uppercase italic text-white">The Execution Dossier</h3>
+                </div>
+                <p class="text-[12px] text-slate-400 font-bold uppercase tracking-widest leading-relaxed">
+                    Agents send brochures; we send <span class="text-white">Battle Plans</span>. Deep-dive intelligence including unedited 60s walkthroughs and the 'Exit Math' agents are too afraid to show you.
+                </p>
+                <ul class="text-[10px] font-black text-slate-400 space-y-4 uppercase tracking-[0.3em] pt-4">
+                    <li class="flex items-center"><span class="mr-3 text-teal-500">[+]</span> Raw 'No-Filter' Video Proof</li>
+                    <li class="flex items-center"><span class="mr-3 text-teal-500">[+]</span> Hard Yield Calculation Sheets</li>
+                    <li class="flex items-center"><span class="mr-3 text-teal-500">[+]</span> Refurbishment Feasibility Data</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="max-w-4xl mx-auto py-32 px-6">
+    <div class="bg-slate-950 border border-white/5 p-12 md:p-20 relative overflow-hidden">
+        <section class="max-w-6xl mx-auto py-20 px-6 relative border-t border-white/[0.03]">
+    
+    <div class="absolute top-10 left-6 w-12 h-12 border-t border-l border-red-500/20 hidden md:block"></div>
+
+    <div class="flex flex-col md:flex-row items-start justify-between mb-16 gap-12">
+        <div class="space-y-4 max-w-2xl">
+            <div class="flex items-center space-x-4">
+                <span class="w-8 h-[1px] bg-red-600"></span>
+                <span class="text-[10px] font-black text-red-500 uppercase tracking-[0.5em] animate-pulse">Entry Barrier Active</span>
+            </div>
+            <h2 class="text-5xl md:text-8xl font-[900] text-white uppercase italic tracking-tighter leading-none">
+                The Vetting <br><span class="text-teal-400">Gate</span>
+            </h2>
+        </div>
+        <div class="md:text-right space-y-4 pt-4">
+            <p class="text-[11px] text-slate-500 font-bold uppercase tracking-[0.3em] max-w-xs md:ml-auto leading-loose italic">
+                We are a <span class="text-white">High-Value Consultancy</span>, not a digital gallery. Access to off-market pipelines requires a Strategic Qualification Fee.
+            </p>
+        </div>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-px bg-white/10 border border-white/5 mb-16 shadow-2xl">
+        
+        <div class="bg-[#020617] p-10 space-y-6 group hover:bg-slate-950 transition-all duration-500">
+            <div class="flex justify-between items-center text-[8px] font-mono text-teal-500/40 uppercase tracking-[0.4em]">
+                <span>Protocol_01</span>
+                <span>[Verified_Only]</span>
+            </div>
+            <h4 class="text-xl font-black text-white uppercase italic tracking-widest">Serious Intent Only</h4>
+            <p class="text-[10px] text-slate-400 uppercase font-bold leading-relaxed tracking-[0.15em] border-l border-teal-500/20 pl-6">
+                This is the cost of moving from the <span class="text-white">audience</span> to the <span class="text-white">boardroom</span>. We eliminate time-vampires to ensure deal exclusivity remains absolute.
+            </p>
+        </div>
+
+        <div class="bg-[#020617] p-10 space-y-6 group hover:bg-slate-950 transition-all duration-500">
+            <div class="flex justify-between items-center text-[8px] font-mono text-teal-500/40 uppercase tracking-[0.4em]">
+                <span>Protocol_02</span>
+                <span>[Secured_Asset]</span>
+            </div>
+            <h4 class="text-xl font-black text-white uppercase italic tracking-widest">Risk Mitigation</h4>
+            <p class="text-[10px] text-slate-400 uppercase font-bold leading-relaxed tracking-[0.15em] border-l border-teal-500/20 pl-6">
+                Your allocation is <span class="text-teal-400 underline decoration-teal-500/20 underline-offset-4">fully refundable</span> if our intelligence fails to secure a viable, exchange-ready asset for your profile.
+            </p>
+        </div>
+    </div>
+
+    <div class="max-w-md mx-auto relative group">
+        <div class="absolute -top-4 -left-4 w-6 h-6 border-t-2 border-l-2 border-teal-500 opacity-0 group-hover:opacity-100 transition-all duration-300"></div>
+        <div class="absolute -bottom-4 -right-4 w-6 h-6 border-b-2 border-r-2 border-teal-500 opacity-0 group-hover:opacity-100 transition-all duration-300"></div>
+
+        <button onclick="triggerWhatsApp()" class="w-full bg-teal-500 py-10 rounded-none font-[900] text-[16px] tracking-[0.6em] uppercase text-white shadow-[0_30px_70px_rgba(20,184,166,0.3)] hover:bg-teal-400 transition-all active:scale-[0.97] relative overflow-hidden group">
+            <span class="relative z-10">Stop Spectating. <br><span class="italic text-[11px] opacity-70 tracking-[0.4em] block mt-1">Start Acquiring.</span></span>
+            <div class="absolute inset-0 bg-white/20 -translate-x-full group-hover:animate-laser-slide"></div>
+        </button>
+
+        <p class="text-center mt-8 text-[9px] font-black text-slate-600 uppercase tracking-[0.5em] italic">
+            Handshake Protocol: Ready for Deployment
+        </p>
+    </div>
+
+    <div id="whatsapp-loader" class="fixed inset-0 z-[999] bg-[#020617] hidden flex-col items-center justify-center px-6">
+        <div class="max-w-sm w-full space-y-12 text-center">
+            <div class="relative w-24 h-24 mx-auto">
+                <div class="absolute inset-0 border border-teal-500/10 rounded-full"></div>
+                <div class="absolute inset-0 border-t-2 border-teal-500 rounded-full animate-spin"></div>
+                <div class="absolute inset-0 flex items-center justify-center">
+                    <div class="w-3 h-3 bg-teal-500 rotate-45 shadow-[0_0_20px_#14b8a6]"></div>
+                </div>
+            </div>
+            <div class="space-y-4">
+                <h2 class="text-white font-black uppercase italic tracking-[0.6em] text-[11px]">System Handshake</h2>
+                <p id="status-text" class="text-teal-400 font-black text-[11px] tracking-[0.5em] uppercase">Vetting Liquidity...</p>
+            </div>
+            <div class="h-28 w-full bg-black border border-white/5 p-6 overflow-hidden relative text-left">
+                <div class="text-[7px] font-mono text-slate-700 break-all leading-relaxed uppercase opacity-40">
+                    // AUTH_REF: NW_2026 // SECURING_PRIVATE_PIPELINE // PORTAL_BYPASS_INITIALIZED // REDIRECT_PROTOCOL_ACTIVE...
+                </div>
+                <div class="absolute inset-0 bg-gradient-to-t from-[#020617] to-transparent"></div>
+            </div>
+        </div>
+    </div>
+</section>
+<style>
+@keyframes laser-slide {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+.group:hover .animate-laser-slide {
+    animation: laser-slide 1.5s infinite;
+}
+</style>
+
+    <script>
+        function triggerWhatsApp() {
+            const loader = document.getElementById('whatsapp-loader');
+            const statusText = document.getElementById('status-text');
+            
+            // Trigger Visual Breach
+            loader.style.display = 'flex';
+            
+            // User Configuration
+            const phoneNumber = "447XXXXXXXXX"; // REPLACE WITH YOUR NUMBER
+            const message = "ESTATE SPARK // ACCESS REQUEST: I am ready to bypass the portals. Verify my liquidity profile for the next off-market allocation in the North West.";
+            const waUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+
+            // Vetting Sequence (Total 4s)
+            setTimeout(() => { 
+                statusText.innerText = "BYPASSING PORTAL CEMETERY..."; 
+                statusText.style.color = "#2dd4bf";
+            }, 1000);
+            
+            setTimeout(() => { 
+                statusText.innerText = "AUTHENTICATING PRIVATE KEY..."; 
+            }, 2200);
+            
+            setTimeout(() => { 
+                statusText.innerText = "RE-ROUTING TO BOARDROOM..."; 
+                statusText.classList.add('animate-pulse');
+            }, 3400);
+
+            // Final Handshake
+            setTimeout(() => {
+                window.location.href = waUrl;
+            }, 4200);
+        }
+    </script>
+</div>       
+
+            <p class="text-[9px] text-slate-600 font-black uppercase tracking-[0.3em]">
+                System Status: Ready for Allocation // 2026
+            </p>
+        </div>
+
+        <div class="absolute top-0 left-0 w-1 h-full bg-red-600/40"></div>
+    </div>
+</section>
+         <div class="flex items-center space-x-4 group cursor-default scale-95 origin-left hover:scale-100 transition-transform duration-500">
+    
+    <div class="relative w-12 h-12 flex items-center justify-center">
+        
+        <div class="absolute inset-0 border border-teal-500/10 rotate-45 group-hover:rotate-90 transition-transform duration-[1.5s] ease-[cubic-bezier(0.19,1,0.22,1)]"></div>
+        
+        <div class="absolute inset-1.5 border border-white/5 rotate-[-12deg] group-hover:rotate-45 transition-transform duration-[2s] ease-[cubic-bezier(0.19,1,0.22,1)]"></div>
+        
+        <div class="relative w-6 h-6 border border-teal-500/20 rounded-none bg-slate-950 flex items-center justify-center">
+            <div class="absolute inset-1 flex items-center justify-center font-black text-teal-400 text-xs italic opacity-80 group-hover:animate-glitch">
+                E<span class="text-white">S</span>
+            </div>
+            <div class="absolute left-0 top-0 w-full h-[1px] bg-white opacity-20 group-hover:opacity-40 animate-laser-scan"></div>
+        </div>
+        
+        <div class="absolute top-0 left-0 w-1 h-1 bg-white opacity-10"></div>
+        <div class="absolute bottom-0 right-0 w-1 h-1 bg-white opacity-10"></div>
+    </div>
+
+    <div class="flex flex-col -space-y-1">
+        <h1 class="text-3xl font-[900] text-white uppercase italic tracking-tighter leading-none relative">
+            Estate<span class="text-teal-400">Spark</span>
+            <div class="absolute -bottom-1.5 left-0 w-1/2 h-[2px] bg-gradient-to-r from-teal-500/50 to-transparent blur-[1px]"></div>
+        </h1>
+        
+        <div class="flex items-center space-x-2.5 pt-1">
+            <span class="text-[7px] font-black text-slate-500 uppercase tracking-[0.4em] italic">Private Liquidity</span>
+            <div class="h-[1px] w-6 bg-slate-800 relative overflow-hidden">
+                <div class="absolute inset-0 bg-teal-500/50 group-hover:translate-x-full transition-transform duration-500"></div>
+            </div>
+            <div class="flex items-center space-x-1.5">
+                <div class="w-1 h-1 bg-teal-500 rounded-full animate-pulse shadow-[0_0_8px_#14b8a6]"></div>
+                <span class="text-[7px] font-mono text-teal-500/70 tracking-widest group-hover:text-teal-400">NW_NODE</span>
+            </div>
+        </div>
+    </div>
+</div>
+      <div class="inline-flex items-center space-x-5 py-3 px-6 border border-white/5 bg-slate-950/40 backdrop-blur-sm group overflow-hidden relative">
+    <span class="relative flex h-2 w-2">
+        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-teal-400 opacity-30"></span>
+        <span class="relative inline-flex rounded-full h-2 w-2 bg-teal-500"></span>
+    </span>
+<div class="flex flex-col -space-y-1">
+        <span class="text-[10px] font-black text-white uppercase italic tracking-[0.45em] leading-tight group-hover:text-teal-400 transition-colors">
+            Institutional Intelligence
+        </span>
+        <div class="flex items-center space-x-3 pt-0.5 opacity-60">
+            <span class="text-[8px] font-bold text-slate-400 uppercase tracking-[0.3em]">For Private Capital</span>
+            <div class="h-[1px] w-6 bg-teal-900/50"></div>
+            <span class="text-[7px] font-mono text-teal-600 tracking-widest uppercase">Auth_Ref: NW_2026</span>
+        </div>
+    </div>
+    <div class="absolute inset-y-0 left-0 w-0 bg-teal-500/10 group-hover:w-full transition-all duration-700 ease-in-out"></div>
+</div>
+<style>
+@keyframes laser-scan {
+    0% { top: 0%; opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { top: 100%; opacity: 0; }
+}
+
+@keyframes glitch {
+    0% { transform: translate(0); text-shadow: -1px 0 #14b8a6, 1px 0 #fff; }
+    20% { transform: translate(-1px, 1px); }
+    40% { transform: translate(-1px, -1px); text-shadow: 1px 0 #14b8a6, -1px 0 #fff; }
+    60% { transform: translate(1px, 1px); }
+    80% { transform: translate(1px, -1px); }
+    100% { transform: translate(0); text-shadow: -1px 0 #14b8a6, 1px 0 #fff; }
+}
+
+.group:hover .animate-laser-scan {
+    animation: laser-scan 1s linear infinite;
+}
+
+.group:hover .animate-glitch {
+    animation: glitch 0.3s cubic-bezier(.46,.29,0,1.24) infinite;
+}
+</style>
+    </script>
+</body>
+</html>
